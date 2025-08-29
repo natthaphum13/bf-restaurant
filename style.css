@@ -1,0 +1,198 @@
+/* css/style.css */
+
+body {
+    background-color: #f8f8f8;
+    font-family: Arial, sans-serif; /* เพิ่ม font-family เพื่อให้อ่านง่ายขึ้น */
+}
+
+.header-bar {
+    background-color: white;
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* เพิ่มเงาเล็กน้อย */
+}
+.header-bar .left-icons,
+.header-bar .right-icons {
+    display: flex;
+    align-items: center;
+}
+.header-bar .left-icons a,
+.header-bar .right-icons a {
+    color: #333;
+    margin-right: 15px;
+    font-size: 20px;
+    text-decoration: none;
+}
+.header-bar .right-icons a:last-child {
+    margin-right: 0;
+}
+.header-bar .title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    flex-grow: 1;
+    text-align: center;
+    margin: 0 10px; /* เพิ่มระยะห่างด้านข้าง */
+}
+
+.top-navbar {
+    background-color: white;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+.top-navbar::-webkit-scrollbar { /* Chrome, Safari and Opera */
+    display: none;
+}
+.top-navbar .nav-link {
+    display: inline-block;
+    padding: 8px 15px;
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 20px;
+    margin: 0 5px;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #e0e0e0;
+    background-color: #f0f0f0;
+}
+.top-navbar .nav-link.active {
+    background-color: #ffe0b2; /* A light orange for active tab */
+    color: #333;
+    font-weight: bold;
+    border-color: #ffcc80;
+}
+
+.category-header {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    padding: 15px 15px 10px 15px;
+    background-color: #f8f8f8;
+}
+
+/* List Layout for Menu Items */
+.menu-list {
+    background-color: white;
+    margin-bottom: 15px;
+}
+.menu-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.menu-item:last-child {
+    border-bottom: none;
+}
+.menu-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px;
+    flex-shrink: 0; /* ไม่ให้รูปภาพหด */
+}
+.menu-item .item-details {
+    flex-grow: 1;
+}
+.menu-item .item-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+.menu-item .item-description {
+    font-size: 13px;
+    color: #777;
+    margin-top: 5px;
+}
+.menu-item .item-price {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    margin-top: 5px;
+}
+.menu-item .add-button {
+    background-color: #28a745; /* Green */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    flex-shrink: 0; /* ไม่ให้ปุ่มหด */
+}
+.item-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #ffc107; /* Orange/Yellow for "เมนูแนะนำ" */
+    color: #333;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    z-index: 10; /* ให้ป้ายอยู่ด้านบนรูป */
+}
+.item-label.hot {
+    background-color: #dc3545; /* Red for "ยอดสั่งเยอะที่สุด" */
+    color: white;
+}
+
+
+/* Grid Layout for "เมนูแนะนำ" (similar to IMG_6271.jpg) */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 15px;
+    padding: 15px;
+    background-color: #f8f8f8;
+}
+.grid-item {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    padding-bottom: 10px; /* Space for text below image */
+    position: relative; /* สำหรับป้าย */
+}
+.grid-item img {
+    width: 100%;
+    height: 150px; /* Fixed height for consistency */
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+.grid-item .item-name {
+    font-weight: bold;
+    font-size: 15px;
+    color: #333;
+    margin-top: 10px;
+    padding: 0 5px;
+}
+.grid-item .item-price {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+    margin-top: 5px;
+}
