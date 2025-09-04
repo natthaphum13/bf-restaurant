@@ -1,54 +1,64 @@
+<?php
+session_start();
+include 'condb.php';
+include 'menu.php';
+
+// รับค่าจากช่องค้นหา
+$keyword = isset($_POST['keyword']) ? $_POST['keyword'] : '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>show product</title>
+    <title>ผลการค้นหา</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
-    <?php include 'menu.php' ; ?>
     <div class="container mt-4">
+        <h3 class="text-center mb-4">ผลการค้นหาสำหรับ: "<?= htmlspecialchars($keyword) ?>"</h3>
         <div class="row">
-            <?php
-            include 'condb.php';
+        <?php
+        // สร้างคำสั่ง SQL สำหรับการค้นหาสินค้า
+        $sql = "SELECT * FROM product WHERE pro_name LIKE '%" . mysqli_real_escape_string($conn, $keyword) . "%' ORDER BY pro_id DESC";
+        $result = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($result);
 
-            $perpage = 8;
-            if(isset($_GET['page'])){
-                $page = $_GET['page'];
-            }else{
-                $page = 1;
-
-            }
-                $start = ($page -1) * $perpage;
-
-            $key_word = @$_POST['keyword'];
-if($key_word !=""){
-            $sql = "SELECT * FROM product WHERE pro_id='$key_word' or pro_name like '%$key_word%' or price <= '$key_word'
-               ORDER BY pro_id limit {$start}, {$perpage}";
-}else{
-            $sql = "SELECT * FROM product ORDER BY pro_id limit {$start}, {$perpage}";
-
-}
-
-
-
-            $hand = mysqli_query($conn, $sql);
-            while ($row = mysqli_fetch_array($hand)) {
-                $price = $row['price']
-            ?>
-            <div class="col-md-3">
-                <img src="img/<?= $row['image'] ?>" width="200" height="250" class="img-fluid"><br> <br>
-                <h4 class="text-success"><?=$row['pro_name']?></h4>
-                ราคา: <?= number_format($price,2)?> บาท <br>
-                <a href="#" class="btn btn-primary mt-2">ซื้อสินค้า</a>
-                <br><br>
+        if ($count > 0) {
+            while ($row_pro = mysqli_fetch_array($result)) {
+        ?>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <a href="sh_product_detail.php?id=<?= $row_pro['pro_id'] ?>">
+                        <img src="img/<?= $row_pro['image'] ?>" class="card-img-top" alt="...">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $row_pro['pro_name'] ?></h5>
+                        <p class="card-text text-danger"><?= number_format($row_pro['price'], 2) ?> บาท</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="sh_product_detail.php?id=<?= $row_pro['pro_id'] ?>" class="btn btn-success w-100">
+                            ดูรายละเอียด
+                        </a>
+                    </div>
+                </div>
             </div>
-            <?php
+        <?php
             }
-            mysqli_close($conn);
-            ?>
+        } else {
+            echo '<div class="col-12"><div class="alert alert-warning">ไม่พบสินค้าที่ตรงกับคำค้นหา</div></div>';
+        }
+        mysqli_close($conn);
+        ?>
         </div>
     </div>
 </body>

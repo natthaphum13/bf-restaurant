@@ -19,6 +19,7 @@ include 'condb.php';
         แสดงข้อมูลสินค้า
     </div>
     <a href="fr_product.php" class="btn btn-success mb-4">Add+</a>
+    <a href="admin_order.php" class="btn btn-success mb-4">ย้อนกลับ</a>
     <table class="table table-striped table-hover">
         <tr>
             <th>รหัสสินค้า</th>
@@ -45,11 +46,13 @@ include 'condb.php';
             <td><a href="edit_product.php?id=<?=$row["pro_id"]?>" class="btn btn-warning">Edit</a></td>
             <td><a href="delete_product.php?id=<?=$row["pro_id"]?>" class="btn btn-danger" onclick="return Del(this.href);">Delete</a></td>
         </tr>
+        
         <?php
         }
         mysqli_close($conn);
         ?>
     </table>
+    
 </div>
 
 <script language="JavaScript">

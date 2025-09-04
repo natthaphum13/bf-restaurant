@@ -1,48 +1,79 @@
 <?php
+session_start();
 include 'condb.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-COMPATIBLE" content="IE=EDGE">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Product</title>
+    <title>เมนูทั้งหมด</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script scr="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
 </head>
-
 <body>
-<?php include 'menu.php' ; ?>
+    <?php include 'menu.php'; ?>
+    <div class="container mt-4">
+        <h3 class="text-center mb-4">🍽️ เมนูทั้งหมดของร้าน 🍽️</h3>
 
-    <div class="container">
-<br><br><br>
-  <div class="row">
- <?php
-        $sql = "SELECT * FROM product ORDER BY pro_id";
-        $result = mysqli_query($conn, $sql);
-        while($row = mysqli_fetch_array($result)) {
+        <?php
+        $sql_type = "SELECT * FROM type ORDER BY type_id ASC";
+        $result_type = mysqli_query($conn, $sql_type);
+
+        if (mysqli_num_rows($result_type) > 0) {
+            while ($row_type = mysqli_fetch_assoc($result_type)) {
+                $current_type_id = $row_type['type_id'];
+                $current_type_name = $row_type['type_name'];
         ?>
-    <div class="col-sm-3">
-        <div class="text-center">
-      <img src="img/<?=$row['image']?>" width="200px" height="200" class="mt-5 p-2 my-2 border"> <br>
-      ID: <?=$row['pro_id']?> <br>
-       <h5 class="text-success"><?=$row['pro_name']?></h5> <br>
-       ราคา <b class="text-danger"><?=$row['price']?> บาท</b> <br>
-       <a href="sh_product_detail.php?id=<?=$row['pro_id']?>" class="btn btn-outline-success mt-3">รายละเอียด</a>
-</div>
-<br>
+                <h4 class="mt-5 mb-3 text-gold text-center"><?= $current_type_name ?></h4>
+                <hr>
+                
+                <div class="row">
+                <?php
+                $sql_pro = "SELECT * FROM product WHERE type_id = '$current_type_id' ORDER BY pro_id DESC";
+                $result_pro = mysqli_query($conn, $sql_pro);
+
+                if (mysqli_num_rows($result_pro) > 0) {
+                    while ($row_pro = mysqli_fetch_array($result_pro)) {
+                ?>
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100 shadow-sm card-theme">
+                                <a href="sh_product_detail.php?id=<?= $row_pro['pro_id'] ?>">
+                                    <img src="img/<?= $row_pro['image'] ?>" class="card-img-top" alt="...">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= $row_pro['pro_name'] ?></h5>
+                                    <p class="card-text text-danger"><?= number_format($row_pro['price'], 2) ?> บาท</p>
+                                </div>
+                                <div class="card-footer bg-white border-0">
+                                    <a href="sh_product_detail.php?id=<?= $row_pro['pro_id'] ?>" class="btn btn-success w-100">
+                                        ดูรายละเอียด
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                <?php
+                    }
+                } else {
+                    echo "<div class='col-12 text-center text-muted mb-4'>ไม่มีสินค้าในหมวดหมู่นี้</div>";
+                }
+                ?>
+                </div>
+        <?php
+            }
+        } else {
+            echo "<div class='col-12 text-center text-muted'>ยังไม่มีประเภทเมนูในระบบ</div>";
+        }
+        mysqli_close($conn);
+        ?>
     </div>
-    <?php
-    }
-    mysqli_close($conn);
-?>
-  </div>
-</div>
-
-
-
-
 </body>
 </html>

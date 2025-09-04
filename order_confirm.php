@@ -31,6 +31,8 @@ $result_details = mysqli_query($conn, $sql_details);
     <title>ยืนยันคำสั่งซื้อ</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <?php include 'menu.php'; ?>
